@@ -1,10 +1,21 @@
-import React from 'react'
-
-import { ExampleComponent } from 'react-cache-buster'
-import 'react-cache-buster/dist/index.css'
+import React from 'react';
+import CacheBuster from 'react-cache-buster';
+import { version } from '../package.json';
+import HomePage from './home-page';
+import Loading from './loading';
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
-}
+  const isProduction = process.env.NODE_ENV === 'production';
+  return (
+    <CacheBuster
+      currentVersion={version}
+      isEnabled={isProduction}
+      isVerboseMode={true}
+      loadingComponent={<Loading />}
+    >
+      <HomePage />
+    </CacheBuster>
+  );
+};
 
-export default App
+export default App;

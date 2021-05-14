@@ -1,6 +1,9 @@
-import React from 'react'
-import styles from './styles.module.css'
+import CacheBuster from './CacheBuster';
+import generateMetaTag from './generate-meta-tag';
 
-export const ExampleComponent = ({ text }) => {
-  return <div className={styles.test}>Example Component: {text}</div>
+const args = process.argv.slice(2);
+if (args[0] === '--generate' || args[0] === '-g') {
+  generateMetaTag();
 }
+
+export default CacheBuster;

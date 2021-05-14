@@ -1,13 +1,14 @@
 {
   "name": "react-cache-buster-example",
   "homepage": ".",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.2.3",
+  "private": false,
   "scripts": {
     "start": "node ../node_modules/react-scripts/bin/react-scripts.js start",
-    "build": "node ../node_modules/react-scripts/bin/react-scripts.js build",
+    "build": "yarn generate-meta-tag && node ../node_modules/react-scripts/bin/react-scripts.js build",
     "test": "node ../node_modules/react-scripts/bin/react-scripts.js test",
-    "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
+    "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject",
+    "generate-meta-tag": "node ./node_modules/react-cache-buster/dist/index.js --generate"
   },
   "dependencies": {
     "react": "link:../node_modules/react",
