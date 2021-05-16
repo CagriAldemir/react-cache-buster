@@ -5,15 +5,21 @@
   "author": "CagriAldemir",
   "license": "MIT",
   "repository": "CagriAldemir/react-cache-buster",
+  "keywords": [
+    "react",
+    "cache-busting",
+    "production",
+    "clean-build"
+  ],
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
-  "source": "src/index.js",
+  "source": "src/*.js",
   "engines": {
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs",
-    "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "build": "yarn buildTypes && microbundle-crl --no-compress --no-sourcemap --format modern,cjs",
+    "start": "microbundle-crl watch --no-compress --no-sourcemap --format modern,cjs",
     "prepare": "run-s build",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
@@ -21,7 +27,8 @@
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
     "predeploy": "cd example && yarn install && yarn run build",
-    "deploy": "gh-pages -d example/build"
+    "deploy": "gh-pages -d example/build",
+    "buildTypes": "tsc ./src/*.js --declaration --allowJs --emitDeclarationOnly --outDir dist"
   },
   "peerDependencies": {
     "react": "^17.0.2"

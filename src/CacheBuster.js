@@ -111,4 +111,4 @@ CacheBuster.propTypes = {
   loadingComponent: PropTypes.element
 };
 
-export default CacheBuster;
+export { CacheBuster };

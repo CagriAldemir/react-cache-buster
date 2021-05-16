@@ -23,7 +23,7 @@ Add a new script to package.json
 ```bash
 "scripts": {
   #...
-  "generate-meta-tag": "node ./node_modules/react-cache-buster/dist/index.js --generate"
+  "generate-meta-tag": "node ./node_modules/react-cache-buster/dist/generate-meta-tag.js"
   #...
 }
 ```
