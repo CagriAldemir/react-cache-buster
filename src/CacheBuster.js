@@ -80,7 +80,7 @@ function CacheBuster({
           caches.delete(cacheName);
         }
         log('The cache has been deleted.');
-        window.location.reload();
+        window.location.reload(true);
       }
     } catch (error) {
       log('An error occurred while deleting the cache.', true);
