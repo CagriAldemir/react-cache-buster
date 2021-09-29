@@ -74,7 +74,8 @@ function CacheBuster({
 
   const refreshCacheAndReload = async () => {
     try {
-      if (caches) {
+      if (window?.caches) {
+        const { caches } = window;
         const cacheNames = await caches.keys();
         for (const cacheName of cacheNames) {
           caches.delete(cacheName);
