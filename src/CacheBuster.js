@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { compare } from 'compare-versions';
 
 function CacheBuster({
   children = null,
@@ -54,22 +55,7 @@ function CacheBuster({
   };
 
   const isThereNewVersion = (metaVersion, currentVersion) => {
-    if (!currentVersion) {
-      return false;
-    }
-    const metaVersions = metaVersion.split(/\./g);
-    const currentVersions = currentVersion.split(/\./g);
-
-    while (metaVersions.length || currentVersions.length) {
-      const a = Number(metaVersions.shift());
-
-      const b = Number(currentVersions.shift());
-      if (a === b) {
-        continue;
-      }
-      return a > b || isNaN(b);
-    }
-    return false;
+    return compare(metaVersion, currentVersion, '>');
   };
 
   const refreshCacheAndReload = async () => {

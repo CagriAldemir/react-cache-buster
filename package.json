@@ -58,6 +58,7 @@
     "dist"
   ],
   "dependencies": {
+    "compare-versions": "^4.1.2",
     "prop-types": "^15.7.2"
   }
 }
