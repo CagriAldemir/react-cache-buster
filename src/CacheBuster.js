@@ -6,7 +6,8 @@ function CacheBuster({
   currentVersion,
   isEnabled = false,
   isVerboseMode = false,
-  loadingComponent = null
+  loadingComponent = null,
+  onCacheClear = null
 }) {
   const [cacheStatus, setCacheStatus] = useState({
     loading: true,
@@ -98,6 +99,7 @@ function CacheBuster({
 
     if (!cacheStatus.loading && !cacheStatus.isLatestVersion) {
       refreshCacheAndReload();
+      onCacheClear();
       return null;
     }
     return children;
@@ -109,7 +111,8 @@ CacheBuster.propTypes = {
   currentVersion: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   isVerboseMode: PropTypes.bool,
-  loadingComponent: PropTypes.element
+  loadingComponent: PropTypes.element,
+  onCacheClear: PropTypes.func
 };
 
 export { CacheBuster };
