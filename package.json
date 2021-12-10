@@ -1,6 +1,6 @@
 {
   "name": "react-cache-buster",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "This package allows clients to automatically check the new version when a new version is released in the production environment, and if a new version is published, clearing the cache and reload the page.",
   "author": "CagriAldemir",
   "license": "MIT",
