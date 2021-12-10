@@ -99,7 +99,7 @@ function CacheBuster({
 
     if (!cacheStatus.loading && !cacheStatus.isLatestVersion) {
       refreshCacheAndReload();
-      onCacheClear();
+      onCacheClear && onCacheClear();
       return null;
     }
     return children;
