@@ -30,6 +30,9 @@ code {
   font-size: 32px;
   text-align: center;
 }
+.small-text {
+  font-size: 0.7em;
+}
 
 .footer {
   padding-bottom: 16px;

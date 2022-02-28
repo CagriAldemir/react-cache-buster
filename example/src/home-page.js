@@ -1,13 +1,18 @@
 import React from 'react';
+import { version } from '../package.json'; 
+import GetVersion from './get-version';
 
 function HomePage() {
+  const propertyToCheck = 'hash';
+  const hashVal = process.env.REACT_APP_COMMIT_HASH;
   return (
     <div className="container">
       <div className="home-text">
         <div>Hi !</div>
         <div>
-          I'm <strong>React Cache Buster</strong>
+          I'm <strong>React Cache Buster: Current {propertyToCheck}={hashVal} </strong>
         </div>
+        <GetVersion propertyToCheck={'hash'} />
       </div>
       <div className="footer">
         <a

@@ -5,12 +5,16 @@ import HomePage from './home-page';
 import Loading from './loading';
 
 const App = () => {
-  const isProduction = process.env.NODE_ENV === 'production';
+  const propertyToCheck = 'hash';
+  // const propertyToCheck = 'version';
+  const hashVal = process.env.REACT_APP_COMMIT_HASH;
+  console.log(`this is the hashval [${hashVal}]`);
   return (
     <CacheBuster
-      currentVersion={version}
-      isEnabled={isProduction}
+      currentValue={hashVal}
+      isEnabled={true}
       isVerboseMode={true}
+      propertyToCheck={propertyToCheck}
       loadingComponent={<Loading />}
     >
       <HomePage />

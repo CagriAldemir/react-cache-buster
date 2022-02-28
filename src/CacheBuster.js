@@ -4,12 +4,16 @@ import { compare } from 'compare-versions';
 
 function CacheBuster({
   children = null,
-  currentVersion,
+  currentValue,
+  propertyToCheck,
   isEnabled = false,
   isVerboseMode = false,
   loadingComponent = null,
   onCacheClear
 }) {
+  if (!currentValue) {
+    currentValue = 'notfound';
+  }
   const [cacheStatus, setCacheStatus] = useState({
     loading: true,
     isLatestVersion: false
@@ -25,18 +29,44 @@ function CacheBuster({
 
   const checkCacheStatus = async () => {
     try {
-      const res = await fetch('/meta.json');
-      const { version: metaVersion } = await res.json();
+      const res = await fetch('/meta.json?r=' + Math.random());
+      const metaJson = await res.json();
+      const metaValue = metaJson[propertyToCheck];
 
-      const shouldForceRefresh = isThereNewVersion(metaVersion, currentVersion);
+      // Log what the cachebuster is seeing and checking
+      console.log(`Cache Buster is examining the property: ${propertyToCheck}`);
+      console.log(
+        `Current ${propertyToCheck}: ${currentValue}, meta ${propertyToCheck}: ${metaValue}`
+      );
+
+      // Now, if the system DOES need a refresh and we haven't been here befoe, go ahead and clear the cache and perform the update
+      const shouldForceRefresh = isThereNewVersion(metaValue, currentValue);
       if (shouldForceRefresh) {
-        log(`There is a new version (v${metaVersion}). Should force refresh.`);
+        // Now, check if we've already been here.  If so, your configuration might not be quite right (values you're comparing aren't being updated properly by your build)
+        const ssName = 'reloadRequest';
+        const beenHereBefore = sessionStorage.getItem(ssName);
+        if (beenHereBefore) {
+          console.warn('CacheBuster: Refresh has already run once...cancelling to avoid infinite loop.  Please check your comparison values.');
+          sessionStorage.removeItem(ssName);
+          setCacheStatus({
+            loading: false,
+            isLatestVersion: true
+          });
+          return;
+        } else {
+          // If we haven't been here before, drop something into the session storage so we can check in case we get pushed in here again.
+          sessionStorage.setItem(ssName, true);
+        }
+
+        log(
+          `There is a new ${propertyToCheck} (v${metaValue}). Should force refresh.`
+        );
         setCacheStatus({
           loading: false,
           isLatestVersion: false
         });
       } else {
-        log('There is no new version. No cache refresh needed.');
+        log(`There is no new ${propertyToCheck}. No cache refresh needed.`);
         setCacheStatus({
           loading: false,
           isLatestVersion: true
@@ -55,8 +85,9 @@ function CacheBuster({
     }
   };
 
-  const isThereNewVersion = (metaVersion, currentVersion) => {
-    return compare(metaVersion, currentVersion, '>');
+  const isThereNewVersion = (metaVal, currentVal) => {
+    return metaVal !== currentVal;
+    // return compare(metaVal, currentVal, '>');
   };
 
   const refreshCacheAndReload = async () => {
@@ -94,7 +125,8 @@ function CacheBuster({
 
 CacheBuster.propTypes = {
   children: PropTypes.element.isRequired,
-  currentVersion: PropTypes.string.isRequired,
+  currentValue: PropTypes.string.isRequired,
+  propertyToCheck: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   isVerboseMode: PropTypes.bool,
   loadingComponent: PropTypes.element,

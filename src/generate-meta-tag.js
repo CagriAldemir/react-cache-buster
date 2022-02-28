@@ -5,9 +5,14 @@ const packageJson = require(`${process.cwd()}/package.json`);
 const metaJson = path.join(process.cwd(), 'public', 'meta.json');
 
 const appVersion = packageJson.version;
+const revision = require('child_process')
+  .execSync('git rev-parse HEAD')
+  .toString()
+  .trim();
 
 const jsonData = {
-  version: appVersion
+  version: appVersion, 
+  hash: revision
 };
 
 const jsonContent = JSON.stringify(jsonData);

@@ -1,21 +1,23 @@
 {
   "name": "react-cache-buster-example",
   "homepage": ".",
-  "version": "1.2.3",
+  "version": "1.2.7",
   "private": false,
   "license": "MIT",
   "scripts": {
-    "start": "node ../node_modules/react-scripts/bin/react-scripts.js start",
-    "build": "yarn generate-meta-tag && node ../node_modules/react-scripts/bin/react-scripts.js build",
+    "start": "REACT_APP_GREG_TEST=start && node ../node_modules/react-scripts/bin/react-scripts.js start",
+    "build": "yarn generate-meta-tag && REACT_APP_GREG_TEST=build && node ../node_modules/react-scripts/bin/react-scripts.js build",
     "test": "node ../node_modules/react-scripts/bin/react-scripts.js test",
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject",
     "generate-meta-tag": "node ./node_modules/react-cache-buster/dist/generate-meta-tag.js"
   },
   "dependencies": {
-    "react": "link:../node_modules/react",
-    "react-dom": "link:../node_modules/react-dom",
-    "react-scripts": "link:../node_modules/react-scripts",
-    "react-cache-buster": "link:.."
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "react": "../node_modules/react",
+    "react-cache-buster": "..",
+    "react-dom": "../node_modules/react-dom",
+    "react-scripts": "../node_modules/react-scripts"
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3"
