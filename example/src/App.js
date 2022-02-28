@@ -5,7 +5,7 @@ import HomePage from './home-page';
 import Loading from './loading';
 
 const App = () => {
-  const propertyToCheck = 'hash';
+  const propertyToCheck = 'hashs';
   // const propertyToCheck = 'version';
   const hashVal = process.env.REACT_APP_COMMIT_HASH;
   console.log(`this is the hashval [${hashVal}]`);

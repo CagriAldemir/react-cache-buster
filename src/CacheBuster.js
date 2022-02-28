@@ -11,6 +11,12 @@ function CacheBuster({
   loadingComponent = null,
   onCacheClear
 }) {
+  // We only support two property names currently: version and hash.  If the property name is not one of these throw an error
+  if (propertyToCheck !== 'version' && propertyToCheck !== 'hash'){
+    console.error(`CacheBuster: invalid propertyToCheck given: ${propertyToCheck}.  Must be either 'version' or 'hash'`);
+  }
+
+
   if (!currentValue) {
     currentValue = 'notfound';
   }
