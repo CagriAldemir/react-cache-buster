@@ -7,6 +7,7 @@ function CacheBuster({
   currentVersion,
   isEnabled = false,
   isVerboseMode = false,
+  metaFileDirectory = null,
   loadingComponent = null,
   onCacheClear
 }) {
@@ -23,9 +24,13 @@ function CacheBuster({
     isEnabled ? checkCacheStatus() : log('React Cache Buster is disabled.');
   }, []);
 
+  const cleanseMetaFileDirectory = (dir) => {
+    return (!dir || dir === ".") ? "" : dir;
+  }
+
   const checkCacheStatus = async () => {
     try {
-      const res = await fetch('/meta.json');
+      const res = await fetch(`${cleanseMetaFileDirectory(metaFileDirectory)}/meta.json`);
       const { version: metaVersion } = await res.json();
 
       const shouldForceRefresh = isThereNewVersion(metaVersion, currentVersion);
