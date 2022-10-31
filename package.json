@@ -31,7 +31,8 @@
     "buildTypes": "tsc ./src/*.js --declaration --allowJs --emitDeclarationOnly --outDir dist"
   },
   "peerDependencies": {
-    "react": "^17.0.2"
+    "prop-types": ">=15.7.2",
+    "react": ">=17.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
@@ -58,7 +59,6 @@
     "dist"
   ],
   "dependencies": {
-    "compare-versions": "^4.1.2",
-    "prop-types": "^15.7.2"
+    "compare-versions": "^4.1.2"
   }
 }
