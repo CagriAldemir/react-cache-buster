@@ -24,13 +24,15 @@ function CacheBuster({
     isEnabled ? checkCacheStatus() : log('React Cache Buster is disabled.');
   }, []);
 
-  const cleanseMetaFileDirectory = (dir) => {
-    return (!dir || dir === ".") ? "" : dir;
-  }
+  const getMetaFileDirectory = () => {
+    return !metaFileDirectory || metaFileDirectory === '.'
+      ? ''
+      : metaFileDirectory;
+  };
 
   const checkCacheStatus = async () => {
     try {
-      const res = await fetch(`${cleanseMetaFileDirectory(metaFileDirectory)}/meta.json`);
+      const res = await fetch(`${getMetaFileDirectory()}/meta.json`);
       const { version: metaVersion } = await res.json();
 
       const shouldForceRefresh = isThereNewVersion(metaVersion, currentVersion);
@@ -102,6 +104,7 @@ CacheBuster.propTypes = {
   currentVersion: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   isVerboseMode: PropTypes.bool,
+  metaFileDirectory: PropTypes.string,
   loadingComponent: PropTypes.element,
   onCacheClear: PropTypes.func
 };
