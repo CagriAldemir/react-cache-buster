@@ -64,10 +64,10 @@ function CacheBuster({
       if (window?.caches) {
         const { caches } = window;
         const cacheNames = await caches.keys();
-        const cacheDeletions = cacheNames.map(n => caches.delete(n));
+        const cacheDeletionPromises = cacheNames.map((n) => caches.delete(n));
 
-        await Promise.allSettled(cacheDeletions);
-        
+        await Promise.all(cacheDeletionPromises);
+
         log('The cache has been deleted.');
         window.location.reload(true);
       }
