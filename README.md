@@ -55,8 +55,8 @@ const App = () => {
       currentVersion={version}
       isEnabled={isProduction} //If false, the library is disabled.
       isVerboseMode={false} //If true, the library writes verbose logs to console.
-      metaFileDirectory={"."} //If public assets are hosted somewhere other than root on your server.
       loadingComponent={<Loading />} //If not pass, nothing appears at the time of new version check.
+      metaFileDirectory={'.'} //If public assets are hosted somewhere other than root on your server.
     >
 
       //Your actual root component...
@@ -78,11 +78,17 @@ The process works as follows;
 - Then, the current version of the cached project is compared with the version received over the request.
 - If it is understood that a new version has been published as a result of this comparison, the whole cache is deleted and the project is reloaded.
 
-### Contact
+### Props
 
-Twitter: [@CagriAldemir](https://twitter.com/CagriAldemir)
-
-Mail: [cagri@cagrialdemir.com.tr](mailto:cagri@cagrialdemir.com.tr)
+| Props             | Type     | Required           | Description                                                                                                                |
+| ----------------- | -------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| children          | JSX      | :white_check_mark: | Must be your actual root component. If you don't need to clear the cache, React Cache Buster renders the actual component. |
+| currentVersion    | String   | :white_check_mark: | Point to the package.json version inside your project.                                                                     |
+| isEnabled         | Boolean  | :white_check_mark: | Enable/disable React Cache Buster. Default: **false**                                                                      |
+| isVerboseMode     | Boolean  | :x:                | If true, React Cache Buster writes verbose logs to console. Default: **false**                                             |
+| loadingComponent  | JSX      | :x:                | Component to be rendered during the new version control.                                                                   |
+| metaFileDirectory | String   | :x:                | If public assets are hosted somewhere other than root on your server, you can pass the directory with this prop.           |
+| onCacheClear      | Function | :x:                | This function is called before clearing the cache when a new version is found.                                             |
 
 ### License
 

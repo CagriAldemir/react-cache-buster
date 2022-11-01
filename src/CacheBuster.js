@@ -7,8 +7,8 @@ function CacheBuster({
   currentVersion,
   isEnabled = false,
   isVerboseMode = false,
-  metaFileDirectory = null,
   loadingComponent = null,
+  metaFileDirectory = null,
   onCacheClear
 }) {
   const [cacheStatus, setCacheStatus] = useState({
@@ -105,8 +105,8 @@ CacheBuster.propTypes = {
   currentVersion: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   isVerboseMode: PropTypes.bool,
-  metaFileDirectory: PropTypes.string,
   loadingComponent: PropTypes.element,
+  metaFileDirectory: PropTypes.string,
   onCacheClear: PropTypes.func
 };
 
