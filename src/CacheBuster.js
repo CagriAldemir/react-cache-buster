@@ -92,8 +92,9 @@ function CacheBuster({
     }
 
     if (!cacheStatus.loading && !cacheStatus.isLatestVersion) {
-      onCacheClear && onCacheClear();
-      refreshCacheAndReload();
+      onCacheClear
+        ? onCacheClear(refreshCacheAndReload)
+        : refreshCacheAndReload();
       return null;
     }
     return children;
