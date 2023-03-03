@@ -1,6 +1,15 @@
-import { useEffect, useState } from 'react';
+// @ts-check
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState
+} from 'react';
 import PropTypes from 'prop-types';
 import { compare } from 'compare-versions';
+
+const CacheBusterContext = createContext({ checkCacheStatus: () => {} });
 
 function CacheBuster({
   children = null,
@@ -30,7 +39,7 @@ function CacheBuster({
       : metaFileDirectory;
   };
 
-  const checkCacheStatus = async () => {
+  const checkCacheStatus = useCallback(async () => {
     try {
       const res = await fetch(`${getMetaFileDirectory()}/meta.json`);
       const { version: metaVersion } = await res.json();
@@ -60,7 +69,7 @@ function CacheBuster({
           isLatestVersion: true
         });
     }
-  };
+  }, [currentVersion, isVerboseMode, metaFileDirectory]);
 
   const isThereNewVersion = (metaVersion, currentVersion) => {
     return compare(metaVersion, currentVersion, '>');
@@ -76,7 +85,7 @@ function CacheBuster({
         await Promise.all(cacheDeletionPromises);
 
         log('The cache has been deleted.');
-        window.location.reload(true);
+        window.location.reload();
       }
     } catch (error) {
       log('An error occurred while deleting the cache.', true);
@@ -92,12 +101,21 @@ function CacheBuster({
     }
 
     if (!cacheStatus.loading && !cacheStatus.isLatestVersion) {
-      onCacheClear
-        ? onCacheClear(refreshCacheAndReload)
-        : refreshCacheAndReload();
+      if (onCacheClear) {
+        onCacheClear(refreshCacheAndReload);
+      } else {
+        refreshCacheAndReload();
+      }
       return null;
     }
-    return children;
+
+    return React.createElement(
+      CacheBusterContext.Provider,
+      {
+        value: { checkCacheStatus }
+      },
+      children
+    );
   }
 }
 
@@ -111,4 +129,14 @@ CacheBuster.propTypes = {
   onCacheClear: PropTypes.func
 };
 
-export { CacheBuster };
+const useCacheBuster = () => {
+  const context = useContext(CacheBusterContext);
+  if (context === undefined || context === null) {
+    throw new Error(
+      'useCacheBuster must be used within a CacheBuster component.'
+    );
+  }
+  return context;
+};
+
+export { CacheBuster, useCacheBuster };
