@@ -60,7 +60,7 @@ const App = () => {
       metaFileDirectory={'.'} //If public assets are hosted somewhere other than root on your server.
     >
 
-      //Your actual root component...
+      {/* // Your actual root component... */}
 
     </CacheBuster>
   );
@@ -89,6 +89,7 @@ The process works as follows;
 | isVerboseMode     | Boolean  | :x:                | If true, React Cache Buster writes verbose logs to console. Default: **false**                                                                                                                                                                                                                                                                                           |
 | loadingComponent  | JSX      | :x:                | Component to be rendered during the new version control.                                                                                                                                                                                                                                                                                                                 |
 | metaFileDirectory | String   | :x:                | If public assets are hosted somewhere other than root on your server, you can pass the directory with this prop.                                                                                                                                                                                                                                                         |
+| reloadOnDowngrade | Boolean  | :x:                | Whether to also bust the cache and reload if the version fetched from the server is lower.                                                                                                                                                                                                                                                                               |
 | onCacheClear      | Function | :x:                | This function is called before clearing the cache when a new version is found. If you pass this prop, cache clearing is not performed. Instead, the cache clearing function is sent as a parameter to this function and **you are expected to call this function**.<br/>Structure of the function: `onCacheClear: (refreshCacheAndReload: () => Promise<void>) => void;` |
 
 ### License

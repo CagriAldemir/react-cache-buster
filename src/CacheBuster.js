@@ -18,6 +18,7 @@ function CacheBuster({
   isVerboseMode = false,
   loadingComponent = null,
   metaFileDirectory = null,
+  reloadOnDowngrade = false,
   onCacheClear
 }) {
   const [cacheStatus, setCacheStatus] = useState({
@@ -72,6 +73,9 @@ function CacheBuster({
   }, [currentVersion, isVerboseMode, metaFileDirectory]);
 
   const isThereNewVersion = (metaVersion, currentVersion) => {
+    if (reloadOnDowngrade) {
+      return !compare(metaVersion, currentVersion, '=');
+    }
     return compare(metaVersion, currentVersion, '>');
   };
 
