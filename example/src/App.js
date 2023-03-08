@@ -10,6 +10,7 @@ const App = () => {
     <CacheBuster
       currentVersion={version}
       isEnabled={isProduction}
+      reloadOnDowngrade={false}
       isVerboseMode={true}
       loadingComponent={<Loading />}
     >
