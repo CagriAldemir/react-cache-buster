@@ -89,7 +89,8 @@ function CacheBuster({
         await Promise.all(cacheDeletionPromises);
 
         log('The cache has been deleted.');
-        window.location.reload();
+        // @ts-ignore: Firefox still has a `forceReload` parameter.
+        window.location.reload(true);
       }
     } catch (error) {
       log('An error occurred while deleting the cache.', true);
