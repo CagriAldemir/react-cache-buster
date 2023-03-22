@@ -41,7 +41,7 @@ And then, change your build script like below;
 }
 ```
 
-The "generate-meta-tag" script command creates a file named "meta.json" under the public folder under the root directory of your project and writes the current package.json version into the created file.
+The `generate-meta-tag` script command creates a file named `meta.json` under the public folder under the root directory of your project and writes the current package.json version into the created file.
 
 ```jsx
 import React from 'react';
@@ -59,7 +59,9 @@ const App = () => {
       loadingComponent={<Loading />} //If not pass, nothing appears at the time of new version check.
       metaFileDirectory={'.'} //If public assets are hosted somewhere other than root on your server.
     >
+
       // Your actual root component...
+
     </CacheBuster>
   );
 };
@@ -71,8 +73,8 @@ You can now build and go on production as before.
 
 The process works as follows;
 
-- When you run the build script, the "generate-meta-tag" script writes the current package.json version into meta.json and then the build process continues.
-- When the client opens the website, the CacheBuster component makes a request to the "/meta.json" file located in the root.
+- When you run the build script, the `generate-meta-tag` script writes the current package.json version into meta.json and then the build process continues.
+- When the client opens the website, the CacheBuster component makes a request to the `/meta.json` file located in the root.
 - Although the website is initially loaded via cache, the updated version data is obtained through the request since XHR requests are not kept in the cache.
 - Then, the current version of the cached project is compared with the version received over the request.
 - If it is understood that a new version has been published as a result of this comparison, the whole cache is deleted and the project is reloaded.
@@ -92,10 +94,7 @@ The process works as follows;
 
 ### Check for new version manually
 
-From any component child of the `<CacheBuster>` provider, you can use the `useCacheBuster` hook
-to get the `checkCacheStatus` function and trigger a version check and possible cache bust
-whenever you want, such as on any route change (be mindful of when this can interrupt your
-user's experience). See [`example/`](example/) for a simple use case.
+From any component child of the `<CacheBuster>` provider, you can use the `useCacheBuster` hook to get the `checkCacheStatus` function and trigger a version check and possible cache bust whenever you want, such as on any route change (be mindful of when this can interrupt your user's experience). When you call the `checkCacheStatus` function, if there is a new version, this method will be called if you have given the `onCacheClear` prop to CacheBuster, otherwise the page will be refreshed automatically. See [example](example/) for a simple use case.
 
 ```jsx
 const VersionCheckButton = () => {
