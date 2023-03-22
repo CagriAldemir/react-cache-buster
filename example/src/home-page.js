@@ -1,6 +1,9 @@
 import React from 'react';
+import { useCacheBuster } from 'react-cache-buster';
 
 function HomePage() {
+  const { checkCacheStatus } = useCacheBuster();
+
   return (
     <div className="container">
       <div className="home-text">
@@ -8,7 +11,11 @@ function HomePage() {
         <div>
           I'm <strong>React Cache Buster</strong>
         </div>
+        <div>
+          <button onClick={checkCacheStatus}>Manual version check</button>
+        </div>
       </div>
+
       <div className="footer">
         <a
           href="https://twitter.com/CagriAldemir"

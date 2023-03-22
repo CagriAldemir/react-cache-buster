@@ -1,3 +1,3 @@
-import { CacheBuster } from './CacheBuster';
+import { CacheBuster, useCacheBuster } from './CacheBuster';
 
-export default CacheBuster;
+export { CacheBuster as default, useCacheBuster };
