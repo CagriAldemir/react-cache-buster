@@ -4,29 +4,17 @@ const path = require('path');
 
 /**
  * Generate a git-based version for cache busting
- * Creates a semver-compatible version using git info
+ * Uses git commit hash directly for simplicity
  */
 function generateGitVersion() {
     try {
         // Get git commit hash (short)
         const gitHash = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
-        
-        // Get timestamp for uniqueness (YYYYMMDD.HHMMSS format)
-        const now = new Date();
-        const dateStr = now.toISOString().slice(0, 10).replace(/-/g, ''); // YYYYMMDD
-        const timeStr = now.toTimeString().slice(0, 8).replace(/:/g, ''); // HHMMSS
-        
-        // Create semver-compatible version: 0.0.YYYYMMDD.HHMMSS-githash
-        // Using 0.0 as major.minor since this is for cache busting, not releases
-        const gitVersion = `0.0.${dateStr}.${timeStr}-${gitHash}`;
-        
-        return gitVersion;
+        return gitHash;
     } catch (error) {
         console.warn('⚠️  Could not get git hash, falling back to timestamp');
-        const now = new Date();
-        const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
-        const timeStr = now.toTimeString().slice(0, 8).replace(/:/g, '');
-        return `0.0.${dateStr}.${timeStr}-build`;
+        const timestamp = Date.now().toString();
+        return `build-${timestamp}`;
     }
 }
 

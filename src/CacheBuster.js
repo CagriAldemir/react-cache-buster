@@ -74,10 +74,19 @@ function CacheBuster({
   }, [currentVersion, isVerboseMode, metaFileDirectory]);
 
   const isThereNewVersion = (metaVersion, currentVersion) => {
-    if (reloadOnDowngrade) {
-      return !compare(metaVersion, currentVersion, '=');
+    // If versions are not semver-compatible, use string comparison
+    try {
+      if (reloadOnDowngrade) {
+        return !compare(metaVersion, currentVersion, '=');
+      }
+      return compare(metaVersion, currentVersion, '>');
+    } catch (error) {
+      // Fallback to string comparison for non-semver versions (like git hashes)
+      if (reloadOnDowngrade) {
+        return metaVersion !== currentVersion;
+      }
+      return metaVersion > currentVersion;
     }
-    return compare(metaVersion, currentVersion, '>');
   };
 
   const refreshCacheAndReload = async () => {

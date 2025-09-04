@@ -62,10 +62,11 @@ node ./node_modules/react-cache-buster/src/generate-meta-tag.js --git public
 node ./node_modules/react-cache-buster/src/generate-meta-tag.js --version "1.2.3" public
 ```
 
-**Git-based versioning** creates semver-compatible versions like `0.0.20250904.222853-4d3140de` using:
-- `0.0` as major.minor (indicates cache busting, not releases)
-- `YYYYMMDD.HHMMSS` timestamp for uniqueness
-- Git commit hash for traceability
+**Git-based versioning** uses the git commit hash directly (e.g., `4d3140de`) for:
+- **Simplicity**: Just the git hash, no complex timestamps
+- **Uniqueness**: Each commit gets a unique version
+- **Traceability**: Easy to identify which commit is deployed
+- **Cache busting**: Works with string comparison for version changes
 
 This is perfect for automatic deployments where you want cache busting without manual version bumps.
 
