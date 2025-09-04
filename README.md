@@ -43,6 +43,32 @@ And then, change your build script like below;
 
 The `generate-meta-tag` script command creates a file named `meta.json` under the public folder under the root directory of your project and writes the current package.json version into the created file.
 
+### Enhanced Versioning Options
+
+This fork supports multiple versioning strategies:
+
+#### 1. Package.json Version (Default)
+```bash
+node ./node_modules/react-cache-buster/src/generate-meta-tag.js public
+```
+
+#### 2. Git-based Versioning (Recommended for CI/CD)
+```bash
+node ./node_modules/react-cache-buster/src/generate-meta-tag.js --git public
+```
+
+#### 3. Explicit Version
+```bash
+node ./node_modules/react-cache-buster/src/generate-meta-tag.js --version "1.2.3" public
+```
+
+**Git-based versioning** creates semver-compatible versions like `0.0.20250904.222853-4d3140de` using:
+- `0.0` as major.minor (indicates cache busting, not releases)
+- `YYYYMMDD.HHMMSS` timestamp for uniqueness
+- Git commit hash for traceability
+
+This is perfect for automatic deployments where you want cache busting without manual version bumps.
+
 ```jsx
 import React from 'react';
 import CacheBuster from 'react-cache-buster';
