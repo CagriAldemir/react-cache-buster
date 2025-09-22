@@ -43,6 +43,33 @@ And then, change your build script like below;
 
 The `generate-meta-tag` script command creates a file named `meta.json` under the public folder under the root directory of your project and writes the current package.json version into the created file.
 
+### Enhanced Versioning Options
+
+This fork supports multiple versioning strategies:
+
+#### 1. Package.json Version (Default)
+```bash
+node ./node_modules/react-cache-buster/src/generate-meta-tag.js public
+```
+
+#### 2. Git-based Versioning (Recommended for CI/CD)
+```bash
+node ./node_modules/react-cache-buster/src/generate-meta-tag.js --git public
+```
+
+#### 3. Explicit Version
+```bash
+node ./node_modules/react-cache-buster/src/generate-meta-tag.js --version "1.2.3" public
+```
+
+**Git-based versioning** uses the git commit hash directly (e.g., `4d3140de`) for:
+- **Simplicity**: Just the git hash, no complex timestamps
+- **Uniqueness**: Each commit gets a unique version
+- **Traceability**: Easy to identify which commit is deployed
+- **Cache busting**: Works with string comparison for version changes
+
+This is perfect for automatic deployments where you want cache busting without manual version bumps.
+
 ```jsx
 import React from 'react';
 import CacheBuster from 'react-cache-buster';
@@ -88,6 +115,7 @@ The process works as follows;
 | isEnabled         | Boolean  | :white_check_mark: | Enable/disable React Cache Buster. Default: **false**                                                                                                                                                                                                                                                                                                                    |
 | isVerboseMode     | Boolean  | :x:                | If true, React Cache Buster writes verbose logs to console. Default: **false**                                                                                                                                                                                                                                                                                           |
 | loadingComponent  | JSX      | :x:                | Component to be rendered during the new version control.                                                                                                                                                                                                                                                                                                                 |
+| isChildrenWhileLoading     | Boolean  | :x:                | If true, `children` are rendered while version is being checked. Default: **false**                                                                                                                                                                                                                                                                                           |
 | metaFileDirectory | String   | :x:                | If public assets are hosted somewhere other than root on your server, you can pass the directory with this prop.                                                                                                                                                                                                                                                         |
 | reloadOnDowngrade | Boolean  | :x:                | Whether to also bust the cache and reload if the version fetched from the server is lower. Default: **false**                                                                                                                                                                                                                                                            |
 | onCacheClear      | Function | :x:                | This function is called before clearing the cache when a new version is found. If you pass this prop, cache clearing is not performed. Instead, the cache clearing function is sent as a parameter to this function and **you are expected to call this function**.<br/>Structure of the function: `onCacheClear: (refreshCacheAndReload: () => Promise<void>) => void;` |

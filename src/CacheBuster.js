@@ -16,6 +16,7 @@ function CacheBuster({
   currentVersion,
   isEnabled = false,
   isVerboseMode = false,
+  isChildrenWhileLoading = false,
   loadingComponent = null,
   metaFileDirectory = null,
   reloadOnDowngrade = false,
@@ -73,10 +74,19 @@ function CacheBuster({
   }, [currentVersion, isVerboseMode, metaFileDirectory]);
 
   const isThereNewVersion = (metaVersion, currentVersion) => {
-    if (reloadOnDowngrade) {
-      return !compare(metaVersion, currentVersion, '=');
+    // If versions are not semver-compatible, use string comparison
+    try {
+      if (reloadOnDowngrade) {
+        return !compare(metaVersion, currentVersion, '=');
+      }
+      return compare(metaVersion, currentVersion, '>');
+    } catch (error) {
+      // Fallback to string comparison for non-semver versions (like git hashes)
+      if (reloadOnDowngrade) {
+        return metaVersion !== currentVersion;
+      }
+      return metaVersion > currentVersion;
     }
-    return compare(metaVersion, currentVersion, '>');
   };
 
   const refreshCacheAndReload = async () => {
@@ -101,7 +111,7 @@ function CacheBuster({
   if (!isEnabled) {
     return children;
   } else {
-    if (cacheStatus.loading) {
+    if (cacheStatus.loading && !isChildrenWhileLoading) {
       return loadingComponent;
     }
 
@@ -129,6 +139,7 @@ CacheBuster.propTypes = {
   currentVersion: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   isVerboseMode: PropTypes.bool,
+  isChildrenWhileLoading: PropTypes.bool,
   loadingComponent: PropTypes.element,
   metaFileDirectory: PropTypes.string,
   onCacheClear: PropTypes.func
